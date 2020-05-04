@@ -28,12 +28,10 @@ function App() {
       <div className="App">
         <Router>
         <Switch>
-          <Route exact path="/">
-          </Route>
+          <PrivateRoute exact path="/" component={GameContainer}/>
           <Route path="/login">
             <LoginContainer />
           </Route>
-          <PrivateRoute path="/game" component={GameContainer}/>
         </Switch>
         </Router>
      </div>

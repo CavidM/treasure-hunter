@@ -18,7 +18,7 @@ function LoginContainer(props:any){
             
             props.CreateGame();
 
-            history.push('/game')
+            history.push('/')
         })
     }
 

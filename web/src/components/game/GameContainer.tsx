@@ -26,10 +26,9 @@ function GameContainer() {
         row.forEach((element: any, columnIndex:number) => {
 
             let style = '';
+            let selected = '';
 
             if(turns.indexOf(`${rowIndex}${columnIndex}`) !== -1) {
-                console.log(turns);
-                console.log(turns.indexOf(`${rowIndex}${columnIndex}`));
                 style = 'selected';
             }
 
@@ -39,7 +38,8 @@ function GameContainer() {
 
             rowComponent.push(<td 
                 key={columnIndex} 
-                data-id={`${rowIndex}${columnIndex}`} 
+                data-id={`${rowIndex}${columnIndex}`}
+                data-selected={`${selected}`}
                 className={`cell ${style}`} >
                     {element.type}
                 </td>
@@ -52,7 +52,6 @@ function GameContainer() {
     });
 
     if(treasureCount === 3) {
-        console.log('all founds, new game dashboard');
         dispatch(CreateGame());
         dispatch(GameScores())
     }
@@ -60,18 +59,20 @@ function GameContainer() {
 
     const onTableClick = (e:any) => {
 
-        if(turns.length === 3) {
+        const data = e.target.dataset;
+        const id = data.id;
+        const selectedIndex = turns.indexOf(id);
 
-            console.log('select max 3 elements');
+        if(turns.length === 3 && selectedIndex === -1) {
 
             return;
         }
 
-        let currentTurns:any = [];
+        let currentTurns:any = [...turns];
 
-        const id = e.target.dataset.id;
+        selectedIndex == -1 ? currentTurns.push(id) : currentTurns.splice(selectedIndex, 1);
 
-        currentTurns = turns.indexOf(id) === -1 ? [...turns, id] : turns;
+        console.log(turns, currentTurns);
 
         setTurns(currentTurns);
     }
@@ -86,8 +87,6 @@ function GameContainer() {
 
         setTurns([]);
     }
-
-    console.log(turns);
 
     return(
         <React.Fragment>
